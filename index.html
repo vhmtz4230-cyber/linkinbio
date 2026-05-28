@@ -60,6 +60,12 @@
       to   { transform: scale(1);    opacity: 1; }
     }
 
+    .hero-photo img,
+    .hero-photo source {
+      width: 100%;
+      height: 100%;
+    }
+
     .hero-photo img {
       width: 100%;
       height: 100%;
@@ -384,7 +390,10 @@
 
   <!-- ── HERO ── -->
   <div class="hero-photo">
-    <img src="profile.jpeg" alt="Vladimir" />
+    <picture>
+      <source srcset="profile.webp" type="image/webp" />
+      <img src="profile.jpeg" alt="Vladimir" fetchpriority="high" />
+    </picture>
     <div class="hero-text">
       <h1 class="hero-name">Vladimir</h1>
       <p class="hero-tagline">De promedio a élite.<br>Inquebrantable. Sin atajos, sin excusas.</p>
@@ -406,7 +415,10 @@
   <div class="card-product-wrap">
     <div class="card">
       <div class="card-row">
-        <img class="card-thumb" src="thumbnail.png" alt="Programa de Salto" style="object-position: center 30%;" />
+        <picture>
+          <source srcset="thumbnail.webp" type="image/webp" />
+          <img class="card-thumb" src="thumbnail.png" alt="Programa de Salto" style="object-position: center 30%;" loading="lazy" />
+        </picture>
         <div class="card-info">
           <div class="card-title">Programa de Salto Vertical™</div>
           <div class="card-desc">13 semanas periodizadas. El mismo entrenamiento que me llevó de 58 a 101 cm de salto vertical en un año.</div>
