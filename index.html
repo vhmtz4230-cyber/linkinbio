@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vladimir | @vladimirhm1</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      padding-bottom: 60px;
+    }
+
+    /* Grain */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 0 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════
+       HERO — foto full bleed, texto encima
+    ═══════════════════════════════════════ */
+    .hero-photo {
+      width: calc(100% + 28px);
+      margin-left: -14px;
+      aspect-ratio: 4 / 5;
+      position: relative;
+      overflow: hidden;
+      background: #111;
+      display: block;
+    }
+
+    @keyframes hero-zoom-in {
+      from { transform: scale(1.07); opacity: 0.8; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+      display: block;
+      animation: hero-zoom-in 1.5s cubic-bezier(0.4,0,0.2,1) both;
+    }
+
+    /* Degradado oscuro abajo — texto legible encima */
+    .hero-photo::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        transparent 25%,
+        transparent 40%,
+        rgba(0,0,0,0.55) 65%,
+        rgba(0,0,0,0.92) 85%,
+        #000 100%
+      );
+    }
+
+    /* Nombre + tagline flotando sobre la foto */
+    .hero-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0 20px 26px;
+      z-index: 2;
+    }
+
+    .hero-name {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      line-height: 1;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.6);
+    }
+
+    .hero-tagline {
+      margin-top: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+      max-width: 320px;
+    }
+
+    /* ── SOCIAL ── */
+    .social-row {
+      display: flex;
+      gap: 10px;
+      padding: 16px 0 4px;
+    }
+
+    .social-btn {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1.5px solid #2e2e2e;
+      background: #0e0e0e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.3s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+    }
+
+    .social-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .social-btn:hover::before { opacity: 0.22; }
+    .social-btn:hover {
+      border-color: #cc2366;
+      transform: translateY(-3px) scale(1.1);
+      box-shadow: 0 10px 28px rgba(204,35,102,0.3);
+    }
+
+    .social-btn svg {
+      width: 20px; height: 20px;
+      position: relative; z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════
+       CARDS — layout horizontal (stan style)
+    ═══════════════════════════════════════ */
+    .card {
+      background: #141414;
+      border: 1px solid #242424;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .card:hover { border-color: #363636; transform: translateY(-1px); }
+
+    /* Fila superior: thumb + texto */
+    .card-row {
+      display: flex;
+      gap: 14px;
+      padding: 16px 16px 14px;
+      align-items: flex-start;
+    }
+
+    .card-thumb {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      object-position: center;
+      flex-shrink: 0;
+      background: #222;
+      display: block;
+    }
+
+    /* Placeholder cuando no hay imagen */
+    .card-thumb-placeholder {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      background: #1e1e1e;
+      border: 1px solid #2a2a2a;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+      letter-spacing: -0.5px;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 12.5px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .card-price {
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .card-price s {
+      font-size: 13px;
+      font-weight: 400;
+      color: #444;
+      margin-left: 4px;
+    }
+
+    /* Botón al fondo de la card */
+    .card-action {
+      padding: 0 14px 14px;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: block;
+      width: 100%;
+      background: #fff;
+      color: #000;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      padding: 14px 20px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: -10%; left: -80%;
+      width: 55%; height: 120%;
+      background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.5) 50%, transparent 80%);
+      transform: skewX(-15deg);
+      animation: btn-shimmer 2.5s ease-in-out infinite;
+    }
+
+    @keyframes btn-shimmer {
+      0%   { left: -80%; }
+      100% { left: 130%; }
+    }
+
+    .btn-primary:hover {
+      background: #efefef;
+      transform: scale(1.01);
+      box-shadow: 0 4px 18px rgba(255,255,255,0.14);
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-bar {
+      background: #1a1a1a;
+      border: 1px solid #252525;
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      color: #fff;
+      margin: 4px 0 2px;
+    }
+
+    /* ═══════════════════════════════════════
+       PRODUCT CARD — borde dorado animado
+    ═══════════════════════════════════════ */
+    .card-product-wrap {
+      position: relative;
+      padding: 1.5px;
+      border-radius: 17px;
+    }
+
+    .card-product-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 17px;
+      background: linear-gradient(
+        90deg,
+        #141414 0%, #141414 15%,
+        #b8963e 30%, #e8d060 45%,
+        #ffffff 52%, #e8d060 58%,
+        #b8963e 72%,
+        #141414 85%, #141414 100%
+      );
+      background-size: 260% 100%;
+      animation: gold-sweep 3.8s ease-in-out infinite;
+    }
+
+    @keyframes gold-sweep {
+      0%   { background-position: 220% center; }
+      100% { background-position: -60% center; }
+    }
+
+    .card-product-wrap .card {
+      border: none;
+      border-radius: 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ═══════════════════════════════════════
+       EMAIL CARD
+    ═══════════════════════════════════════ */
+    .email-card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .email-card-header {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .email-card-title {
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.35;
+      flex: 1;
+    }
+
+    .input-field {
+      width: 100%;
+      background: #0e0e0e;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-field::placeholder { color: #383838; }
+    .input-field:focus {
+      border-color: #484848;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.04);
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      padding: 24px 0 0;
+      color: #252525;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HERO ── -->
+  <div class="hero-photo">
+    <img src="profile.jpeg" alt="Vladimir" />
+    <div class="hero-text">
+      <h1 class="hero-name">Vladimir</h1>
+      <p class="hero-tagline">De promedio a élite.<br>Inquebrantable. Sin atajos, sin excusas.</p>
+    </div>
+  </div>
+
+  <!-- Social -->
+  <div class="social-row">
+    <a href="https://instagram.com/vladimirhm1" class="social-btn" aria-label="Instagram" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5"/>
+        <circle cx="12" cy="12" r="4"/>
+        <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- ── PRODUCT CARD ── -->
+  <div class="card-product-wrap">
+    <div class="card">
+      <div class="card-row">
+        <img class="card-thumb" src="thumbnail.png" alt="Programa de Salto" />
+        <div class="card-info">
+          <div class="card-title">Programa de Salto Vertical™</div>
+          <div class="card-desc">13 semanas periodizadas. El mismo entrenamiento que me llevó a 101 cm de salto y 25K seguidores.</div>
+          <div class="card-price">$99 MXN<span style="font-size:11px;font-weight:500;color:#555;">/mes</span> <s>$299</s></div>
+        </div>
+      </div>
+      <div class="card-action">
+        <a href="https://vjmsalto.netlify.app" class="btn-primary" target="_blank" rel="noopener">Comenzar el Programa →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION BAR ── -->
+  <div class="section-bar">Colaboraciones</div>
+
+  <!-- Way of Wade -->
+  <div class="card">
+    <div class="card-row">
+      <div class="card-thumb-placeholder" style="color:#c8a84b; flex-direction:column; gap:2px;">
+        <span style="font-size:14px; letter-spacing:-1px;">WOW</span>
+        <span style="font-size:7px; letter-spacing:2px; color:#555;">WADE</span>
+      </div>
+      <div class="card-info">
+        <div class="card-title">Way of Wade</div>
+        <div class="card-desc">Zapatos de basketball de élite. Descuento exclusivo con mi código.</div>
+      </div>
+    </div>
+    <div class="card-action">
+      <a href="http://es.wayofwade.com/vhmtz10" class="btn-primary" target="_blank" rel="noopener">Ver colección →</a>
+    </div>
+  </div>
+
+  <!-- 361° Sports -->
+  <div class="card">
+    <div class="card-row">
+      <div class="card-thumb-placeholder" style="font-size:16px; color:#fff; letter-spacing:-1px;">
+        361°
+      </div>
+      <div class="card-info">
+        <div class="card-title">361° Sports</div>
+        <div class="card-desc">Ropa y calzado deportivo de alto rendimiento. Usa mi referido.</div>
+      </div>
+    </div>
+    <div class="card-action">
+      <a href="https://361sport.com/?ref=VLADIMIRHUERTA" class="btn-primary" target="_blank" rel="noopener">Ver colección →</a>
+    </div>
+  </div>
+
+  <!-- ── EMAIL CAPTURE ── -->
+  <div class="card">
+    <div class="email-card-body">
+      <div class="email-card-header">
+        <img class="card-thumb" src="thumbnail.png" alt="" style="height:80px;" />
+        <div class="email-card-title">🔥 ACCESO ANTICIPADO:<br>El Próximo Lanzamiento de Vladimir</div>
+      </div>
+      <input class="input-field" type="text" placeholder="Tu nombre" />
+      <input class="input-field" type="email" placeholder="Tu correo electrónico" />
+      <a href="#" class="btn-primary" style="margin-top:2px;">ASEGURAR MI LUGAR 🔒</a>
+    </div>
+  </div>
+
+  <div class="footer">@vladimirhm1</div>
+
+</div>
+</body>
+</html>
